@@ -1,5 +1,6 @@
 package dev.kotlinssr.data
 
+import dev.kotlinssr.data.AuthResult
 import dev.kotlinssr.data.model.PlayerAccount
 import dev.kotlinssr.data.model.PlayerData
 import java.security.MessageDigest
