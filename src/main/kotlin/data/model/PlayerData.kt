@@ -27,5 +27,14 @@ data class PlayerData(
                 upgrades = upgrades
             )
         }
+
+        fun newgame(): PlayerData {
+            return PlayerData(
+                clickPoints = 0,
+                totalClicks = 0,
+                pointPerClick = 1,
+                upgrades = emptyList()
+            )
+        }
     }
 }
