@@ -1,6 +1,4 @@
 [versions]
-exposed = "0.61.0"
-h2 = "2.3.232"
 kotlin = "2.2.20"
 ktor = "3.3.0"
 logback = "1.5.13"
@@ -9,9 +7,6 @@ logback = "1.5.13"
 ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktor" }
-exposed-core = { module = "org.jetbrains.exposed:exposed-core", version.ref = "exposed" }
-exposed-jdbc = { module = "org.jetbrains.exposed:exposed-jdbc", version.ref = "exposed" }
-h2 = { module = "com.h2database:h2", version.ref = "h2" }
 ktor-server-html-builder = { module = "io.ktor:ktor-server-html-builder", version.ref = "ktor" }
 kotlin-css = { module = "org.jetbrains.kotlin-wrappers:kotlin-css-jvm", version = "2025.9.8" }
 ktor-server-htmx = { module = "io.ktor:ktor-server-htmx", version.ref = "ktor" }

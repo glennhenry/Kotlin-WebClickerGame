@@ -1,22 +1,20 @@
 package dev.kotlinssr
 
+import dev.kotlinssr.context.ServerContext
+import dev.kotlinssr.data.ClickerDatabaseImpl
 import dev.kotlinssr.ui.siteRoutes
 import dev.kotlinssr.ui.stylesCss
-import io.ktor.http.HttpStatusCode
+import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.html.respondHtml
-import io.ktor.server.http.content.staticFiles
-import io.ktor.server.http.content.staticResources
-import io.ktor.server.plugins.calllogging.CallLogging
-import io.ktor.server.request.receiveParameters
-import io.ktor.server.routing.post
-import io.ktor.server.routing.routing
-import io.ktor.server.sessions.Sessions
-import io.ktor.server.sessions.cookie
+import io.ktor.server.html.*
+import io.ktor.server.http.content.*
+import io.ktor.server.plugins.calllogging.*
+import io.ktor.server.request.*
+import io.ktor.server.routing.*
+import io.ktor.server.sessions.*
 import kotlinx.html.body
 import kotlinx.html.p
 import kotlinx.serialization.Serializable
-import org.jetbrains.exposed.sql.Database
 import java.io.File
 
 fun main(args: Array<String>) {
@@ -24,6 +22,8 @@ fun main(args: Array<String>) {
 }
 
 fun Application.module() {
+    val serverContext = ServerContext(db = ClickerDatabaseImpl())
+
     routing {
         // Route for site (serve webpage with respondHtml)
         // Separate it from API routes
@@ -75,12 +75,6 @@ fun Application.module() {
             cookie.extensions["SameSite"] = "lax"
         }
     }
-    val database = Database.connect(
-        url = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1",
-        user = "root",
-        driver = "org.h2.Driver",
-        password = "",
-    )
 }
 
 @Serializable
