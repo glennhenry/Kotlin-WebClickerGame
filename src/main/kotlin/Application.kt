@@ -1,7 +1,9 @@
 package dev.kotlinssr
 
+import dev.kotlinssr.ui.siteRoutes
 import io.ktor.server.application.*
 import io.ktor.server.plugins.calllogging.CallLogging
+import io.ktor.server.routing.routing
 import io.ktor.server.sessions.Sessions
 import io.ktor.server.sessions.cookie
 import kotlinx.serialization.Serializable
@@ -12,6 +14,12 @@ fun main(args: Array<String>) {
 }
 
 fun Application.module() {
+    routing {
+        // Route for site (serve webpage with respondHtml)
+        // Separate it from API routes
+        siteRoutes()
+    }
+
     install(CallLogging)
     install(Sessions) {
         cookie<Session>("MY_SESSION") {
