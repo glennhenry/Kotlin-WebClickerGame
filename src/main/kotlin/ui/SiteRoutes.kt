@@ -1,25 +1,11 @@
 package dev.kotlinssr.ui
 
-import io.ktor.htmx.HxSwap
-import io.ktor.htmx.html.hx
-import kotlinx.html.head
-import io.ktor.http.HttpStatusCode
-import io.ktor.server.html.respondHtml
-import io.ktor.server.response.respond
+import io.ktor.htmx.*
+import io.ktor.htmx.html.*
+import io.ktor.server.html.*
 import io.ktor.server.routing.*
-import io.ktor.utils.io.ExperimentalKtorApi
-import kotlinx.css.col
-import kotlinx.css.h2
-import kotlinx.html.ButtonType
-import kotlinx.html.FlowContent
-import kotlinx.html.FormMethod
-import kotlinx.html.body
-import kotlinx.html.button
-import kotlinx.html.form
-import kotlinx.html.h1
-import kotlinx.html.h2
-import kotlinx.html.id
-import kotlinx.html.onClick
+import io.ktor.utils.io.*
+import kotlinx.html.*
 
 @OptIn(ExperimentalKtorApi::class)
 fun Route.siteRoutes() {
@@ -31,8 +17,7 @@ fun Route.siteRoutes() {
                 websiteHead()
             }
             body {
-                h1 {
-
+                h1(classes = "home-page-title") {
                     +"Hello world"
                 }
                 StateCounter(state)

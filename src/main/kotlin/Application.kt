@@ -1,6 +1,7 @@
 package dev.kotlinssr
 
 import dev.kotlinssr.ui.siteRoutes
+import dev.kotlinssr.ui.stylesCss
 import io.ktor.server.application.*
 import io.ktor.server.plugins.calllogging.CallLogging
 import io.ktor.server.routing.routing
@@ -18,6 +19,7 @@ fun Application.module() {
         // Route for site (serve webpage with respondHtml)
         // Separate it from API routes
         siteRoutes()
+        stylesCss()
     }
 
     install(CallLogging)

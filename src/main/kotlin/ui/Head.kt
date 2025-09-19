@@ -7,6 +7,11 @@ import kotlinx.html.script
 fun HEAD.websiteHead() {
     script { src = "https://unpkg.com/htmx.org@2.0.6" }
     link {
+        rel = "stylesheet"
+        href = "/styles.css"
+        type = "text/css"
+    }
+    link {
         rel = "preconnect"
         href = "https://fonts.googleapis.com"
     }
