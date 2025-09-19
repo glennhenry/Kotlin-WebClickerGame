@@ -4,18 +4,27 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import kotlinx.css.Border
+import kotlinx.css.BorderStyle
 import kotlinx.css.Color
 import kotlinx.css.CssBuilder
 import kotlinx.css.backgroundColor
 import kotlinx.css.body
+import kotlinx.css.border
 import kotlinx.css.color
 import kotlinx.css.fontFamily
+import kotlinx.css.height
+import kotlinx.css.maxHeight
+import kotlinx.css.maxWidth
 import kotlinx.css.px
+import kotlinx.css.width
 
 // CSS styling and theme constants
 object Styles {
     // Colors
-    const val textColor = "#635a4e"
+    const val siteBorder = "#c2bfbc"
+    const val topStatusBarBg = "#857b6e"
+    const val shopSectionBg = "#857b6e"
 
     // Fonts
     const val default = "Arial, sans-serif"
@@ -30,10 +39,18 @@ fun Route.stylesCss() {
     get("/styles.css") {
         call.respondCss {
             body {
+                width = 600.px
+                height = 400.px
                 fontFamily = Styles.default
+                border = Border(
+                    width = 1.px, style = BorderStyle.solid, color = Color(Styles.siteBorder)
+                )
             }
-            rule(".home-page-title") {
-                color = Color(Styles.textColor)
+            rule(".top-status-bar") {
+                backgroundColor = Color(Styles.topStatusBarBg)
+            }
+            rule(".shop-section") {
+                backgroundColor = Color(Styles.shopSectionBg)
             }
         }
     }
