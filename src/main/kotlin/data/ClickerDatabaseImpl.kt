@@ -6,7 +6,20 @@ import java.security.MessageDigest
 import java.util.*
 
 class ClickerDatabaseImpl : ClickerDatabase {
-    val accounts = PlayerAccount.generateDummyAccounts(55).toMutableSet()
+    val accounts = PlayerAccount.generateDummyAccounts(55).toMutableSet().apply {
+        add(PlayerAccount.staticAccount { hashPassword(it) })
+    }
+
+    init {
+        println("Generated accounts:")
+        println("==============")
+        println(accounts.joinToString("\n"))
+        println("==============")
+    }
+
+    override fun doesUserExist(username: String): Boolean {
+        return accounts.find { it.username == username } != null
+    }
 
     override fun createAccount(username: String, password: String): AuthResult {
         val account = accounts.find { it.username == username }

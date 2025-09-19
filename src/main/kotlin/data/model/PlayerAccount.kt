@@ -21,6 +21,16 @@ data class PlayerAccount(
         fun generateDummyAccounts(amount: Int): List<PlayerAccount> {
             return List(amount) { dummy() }
         }
+
+        // for auth testing purpose
+        fun staticAccount(hashFunction: (String) -> String): PlayerAccount {
+            return PlayerAccount(
+                playerId = "admin",
+                username = "imadmin",
+                password = hashFunction("hello"),
+                playerData = PlayerData.dummy()
+            )
+        }
     }
 }
 

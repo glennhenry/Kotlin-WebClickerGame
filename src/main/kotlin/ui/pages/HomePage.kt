@@ -33,7 +33,7 @@ fun FlowContent.HomePage() {
                 }
             }
         }
-        form(classes = "login-form-container", method = FormMethod.post) {
+        form(classes = "login-form-container") {
             attributes.hx {
                 post = "/login"
                 target = "#login-result"
