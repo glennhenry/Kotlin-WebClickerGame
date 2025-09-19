@@ -1,6 +1,7 @@
 package dev.kotlinssr.ui
 
 import dev.kotlinssr.ui.pages.HomePage
+import dev.kotlinssr.ui.pages.PlayPage
 import io.ktor.server.html.*
 import io.ktor.server.routing.*
 import io.ktor.utils.io.*
@@ -16,6 +17,17 @@ fun Route.siteRoutes() {
             }
             body {
                 HomePage()
+            }
+        }
+    }
+
+    get("/play") {
+        call.respondHtml {
+            head {
+                websiteHead()
+            }
+            body {
+                PlayPage()
             }
         }
     }
