@@ -6,6 +6,7 @@ import kotlinx.html.script
 
 fun HEAD.websiteHead() {
     script { src = "https://unpkg.com/htmx.org@2.0.6" }
+    script { src = "/scripts/validate.js" }
     link {
         rel = "stylesheet"
         href = "/styles.css"
