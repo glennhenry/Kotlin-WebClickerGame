@@ -13,24 +13,21 @@ import kotlinx.html.button
 import kotlinx.html.div
 import kotlinx.html.id
 import kotlinx.html.main
+import kotlinx.html.onClick
 import kotlinx.html.p
+import kotlinx.html.script
 import kotlinx.html.span
 import kotlinx.html.strong
 import kotlinx.html.style
+import kotlinx.html.unsafe
 import kotlin.random.Random
 
 fun FlowContent.PlayPage(playerData: PlayerData) {
     div {
         TopStatusBar(playerData)
         main(classes = "main-content") {
-            p(classes = "clicked-text") {
-                id = "click-text"
-                val top = Random.nextInt(1, 50).px
-                val right = Random.nextInt(1, 50).px
-                style = "top:$top;right:$right;"
-                +"+${playerData.pointPerClick} click!"
-            }
             button(classes = "click-me") {
+                onClick = "clicked(${playerData.pointPerClick})"
                 +"Click me!"
             }
         }

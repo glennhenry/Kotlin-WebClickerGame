@@ -38,10 +38,20 @@ import kotlinx.css.margin
 import kotlinx.css.outline
 import kotlinx.css.padding
 import kotlinx.css.position
+import kotlinx.css.properties.Animation
+import kotlinx.css.properties.Animations
+import kotlinx.css.properties.FillMode
+import kotlinx.css.properties.IterationCount
+import kotlinx.css.properties.Timing
+import kotlinx.css.properties.Transforms
+import kotlinx.css.properties.s
+import kotlinx.css.properties.transform
+import kotlinx.css.properties.translateY
 import kotlinx.css.px
 import kotlinx.css.textAlign
 import kotlinx.css.top
 import kotlinx.css.width
+import kotlinx.html.InputAutoComplete.name
 
 // CSS styling and theme constants
 object Styles {
@@ -193,6 +203,23 @@ fun Route.stylesCss() {
             rule(".clicked-text") {
                 fontSize = 12.px
                 position = Position.absolute
+                opacity = 1
+                animationName = "floatUp"
+                animationDuration = 1.s
+                animationTimingFunction = Timing.easeOut
+                animationIterationCount = 1
+                animationFillMode = FillMode.forwards
+            }
+
+            keyframes("floatUp") {
+                from {
+                    opacity = 1
+                    transform { translateY(0.px) }
+                }
+                to {
+                    opacity = 0
+                    transform { translateY((-50).px) }
+                }
             }
 
             rule(".shop-section") {
