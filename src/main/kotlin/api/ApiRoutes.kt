@@ -4,8 +4,6 @@ import dev.kotlinssr.context.ServerContext
 import dev.kotlinssr.data.model.allUpgrades
 import dev.kotlinssr.getPlayerIdFromSession
 import dev.kotlinssr.ui.pages.ShopCard
-import io.ktor.htmx.HxSwap
-import io.ktor.htmx.html.hx
 import io.ktor.server.html.respondHtml
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
@@ -29,8 +27,8 @@ fun Route.apiRoutes(serverContext: ServerContext) {
         val upgrades = allUpgrades.drop(start).take(pageSize)
 
         val playerId = getPlayerIdFromSession()
-        val data = playerId?.let { serverContext.db.getPlayerAccount(it) }?.playerData
-        if (playerId == null || data == null) {
+        val playerData = playerId?.let { serverContext.db.getPlayerAccount(it) }?.playerData
+        if (playerId == null || playerData == null) {
             call.respondHtml {
                 body {
                     p {
@@ -56,7 +54,7 @@ fun Route.apiRoutes(serverContext: ServerContext) {
                 }
                 div(classes = "upgrades-grid") {
                     upgrades.forEach {
-                        ShopCard(it, canBuy = data.clickPoints < it.cost, bought = data.upgrades.contains(it))
+                        ShopCard(it, canBuy = playerData.clickPoints > it.cost, bought = playerData.upgrades.contains(it))
                     }
                 }
                 button(classes = "load-page-button") {
