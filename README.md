@@ -29,6 +29,9 @@ Evaluation:
   - Better separation between UI and server code is needed. Should combine API routes that return HTML in the web/ package and not in server/. Although there are server logic within the API routes that returns HTML, there are still some UI declaration. Better yet, create class or functions that facade the server logic and let the UI just call it.
   - more ideal package aiming for modularity:
     ```
+    server/
+          Application.kt
+          ...
     web/
         Head.kt (HTML head definition)
         Theme.kt (site theme constants)
@@ -49,10 +52,14 @@ Evaluation:
                    components/ (smaller components within a page)
                               AuthDialog.kt
                               HomeSection.kt
+                   HomeRoutes.kt (routes for /home itself and each components that needs update on fetch)
+                                 (they are defined here instead of in server/ because they usually include UI code more than server code)
+                                 (would use a class to bridge between UI layer and server layer)
               play/
                    PlayPage.kt
                    ...
                    ...
+                   PlayRoutes.kt
               ...
               ...
     ```
