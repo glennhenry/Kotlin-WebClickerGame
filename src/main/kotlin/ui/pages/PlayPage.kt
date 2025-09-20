@@ -74,7 +74,7 @@ fun FlowContent.ShopSection() {
 }
 
 @OptIn(ExperimentalKtorApi::class)
-fun FlowContent.ShopCard(upgrade: Upgrade, bought: Boolean) {
+fun FlowContent.ShopCard(upgrade: Upgrade, canBuy: Boolean, bought: Boolean) {
     div(classes = "shop-card") {
         p("upgrade-title") {
             +upgrade.name
@@ -84,9 +84,9 @@ fun FlowContent.ShopCard(upgrade: Upgrade, bought: Boolean) {
         }
         p("upgrade-cost") {
             strong { +"Cost:" }
-            span(classes = "emphasized-text") { +"${upgrade.cost}"}
+            span(classes = "emphasized-text") { +"${upgrade.cost}" }
             +"click point to increase "
-            span(classes = "emphasized-text") { +"${upgrade.clickPointIncrease} click point"}
+            span(classes = "emphasized-text") { +"${upgrade.clickPointIncrease} click point" }
         }
         button(classes = if (bought) "disabled-buy-button" else "buy-button") {
             attributes.hx {
@@ -95,7 +95,7 @@ fun FlowContent.ShopCard(upgrade: Upgrade, bought: Boolean) {
                     set("name", upgrade.name)
                 }
             }
-            disabled = bought
+            disabled = bought || !canBuy
             p(classes = "buy-text") {
                 if (bought) {
                     +"Bought"

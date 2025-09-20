@@ -47,24 +47,24 @@ fun Route.apiRoutes(serverContext: ServerContext) {
 
         call.respondHtml {
             body {
-                div("upgrades-container-div") {
-                    button(classes = "load-page-button") {
-                        disabled = page > 1
-                        attributes["hx-get"] = "/shop?page=${page - 1}"
-                        attributes["hx-target"] = "#upgrades-container"
-                        attributes["hx-swap"] = "innerHTML"
-                        +"<<"
-                    }
+                button(classes = "load-page-button") {
+                    disabled = page <= 1
+                    attributes["hx-get"] = "/shop?page=${page - 1}"
+                    attributes["hx-target"] = "#upgrades-container"
+                    attributes["hx-swap"] = "innerHTML"
+                    +"<<"
+                }
+                div(classes = "upgrades-grid") {
                     upgrades.forEach {
-                        ShopCard(it, bought = data.upgrades.contains(it))
+                        ShopCard(it, canBuy = data.clickPoints < it.cost, bought = data.upgrades.contains(it))
                     }
-                    button(classes = "load-page-button") {
-                        disabled = page < allUpgrades.size / pageSize
-                        attributes["hx-get"] = "/shop?page=${page + 1}"
-                        attributes["hx-target"] = "#upgrades-container"
-                        attributes["hx-swap"] = "innerHTML"
-                        +">>"
-                    }
+                }
+                button(classes = "load-page-button") {
+                    disabled = page > allUpgrades.size / pageSize
+                    attributes["hx-get"] = "/shop?page=${page + 1}"
+                    attributes["hx-target"] = "#upgrades-container"
+                    attributes["hx-swap"] = "innerHTML"
+                    +">>"
                 }
             }
         }

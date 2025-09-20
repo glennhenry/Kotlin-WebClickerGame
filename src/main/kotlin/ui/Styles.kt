@@ -177,12 +177,14 @@ fun Route.stylesCss() {
                 backgroundColor = Color(Styles.shopSectionBg)
                 padding = Padding(12.px)
             }
-            rule(".upgrades-container-div") {
+            rule("#upgrades-container") {
                 display = Display.flex
                 gap = 8.px
                 flexDirection = FlexDirection.row
+                alignItems = Align.center
+                justifyContent = JustifyContent.center
             }
-            rule("#upgrades-container") {
+            rule(".upgrades-grid") {
                 display = Display.grid
                 gridTemplateColumns = GridTemplateColumns.repeat("2, 1fr") // 2 columns
                 gap = 16.px
@@ -194,7 +196,7 @@ fun Route.stylesCss() {
                 flexDirection = FlexDirection.column
                 border = Border(1.px, BorderStyle.solid, color = Color(Styles.siteBorder))
                 borderRadius = 8.px
-                width = 200.px
+                width = 300.px
             }
             rule(".upgrade-title") {
                 fontWeight = FontWeight.bold
