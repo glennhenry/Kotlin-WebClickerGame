@@ -171,6 +171,28 @@ fun Route.stylesCss() {
 
             rule(".main-content") {
                 height = 100.px
+                position = Position.relative
+                display = Display.flex
+                justifyContent = JustifyContent.center
+                alignItems = Align.center
+                backgroundColor = Color("#a39f99")
+            }
+            rule(".click-me") {
+                backgroundColor = Color("#bc71c1")
+                fontSize = 20.px
+                border = Border(2.px, BorderStyle.solid, Color("#ca8ccc"))
+                borderRadius = 8.px
+                padding = Padding(8.px)
+                fontFamily = "Russo One"
+                cursor = Cursor.pointer
+                color = Color.whiteSmoke
+                hover {
+                    backgroundColor = Color("#8e6491")
+                }
+            }
+            rule(".clicked-text") {
+                fontSize = 12.px
+                position = Position.absolute
             }
 
             rule(".shop-section") {
