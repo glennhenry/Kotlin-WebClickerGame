@@ -23,7 +23,7 @@ fun Application.module() {
     routing {
         // Route for site (serve webpage with respondHtml)
         // Separate it from API routes
-        siteRoutes()
+        siteRoutes(serverContext)
         stylesCss()
         staticFiles("scripts", File("scripts"))
         authRoute(serverContext)
@@ -37,13 +37,23 @@ fun Application.module() {
     }
 }
 
-fun RoutingContext.setSession() {
-    call.sessions.set(UserSession(id = randomString(12), count = 0))
+// When user successfully register/login, set a session for the [playerId] with random a session ID
+fun RoutingContext.setSession(playerId: String) {
+    call.sessions.set(
+        UserSession(id = randomString(12), count = 0, playerId = playerId)
+    )
 }
 
+// Ensure session exist within the request
+// if not exist then it is either expired or never issued, in which access won't be granted.
 fun RoutingContext.validateSession(): Boolean {
     return call.sessions.get<UserSession>() != null
 }
 
+// Get playerId from session
+fun RoutingContext.getPlayerIdFromSession(): String? {
+    return call.sessions.get<UserSession>()?.playerId
+}
+
 @Serializable
-data class UserSession(val id: String, val count: Int)
+data class UserSession(val id: String, val count: Int, val playerId: String)

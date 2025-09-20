@@ -5,6 +5,7 @@ import dev.kotlinssr.data.AuthResult
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.html.respondHtml
 import io.ktor.server.request.receiveParameters
+import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
@@ -46,7 +47,7 @@ fun Route.authRoute(serverContext: ServerContext) {
                     call.respondHtml(status = HttpStatusCode.OK) {
                         body {
                             p(classes = "failed-text") {
-                                +"Account don't exist"
+                                +"Account don't exist [${result.message}]"
                             }
                         }
                     }
@@ -57,23 +58,28 @@ fun Route.authRoute(serverContext: ServerContext) {
                     call.respondHtml(status = HttpStatusCode.OK) {
                         body {
                             p(classes = "failed-text") {
-                                +"Password is wrong; if registering, choose another name"
+                                +"Password is wrong; if registering, choose another name [${result.message}]"
                             }
                         }
                     }
                 }
 
-                else -> {
+                AuthResult.UsernameAlreadyExist -> {
+                    println("Unexpected AuthResult: UsernameAlreadyExist after verifying password [${result.message}]")
+                    call.respond(HttpStatusCode.InternalServerError, "HTTP 500")
+                }
+
+                is AuthResult.Success -> {
                     println("Login success for $username, redirecting to /play")
-                    setSession()
+                    setSession(playerId = result.playerId)
                     call.response.headers.append("HX-Redirect", "/play")
                 }
             }
         } else {
             // register
             println("Registering new account for $username")
-            serverContext.db.createAccount(username, password)
-            setSession()
+            val result = serverContext.db.createAccount(username, password) as AuthResult.Success // for simplicity in error handling
+            setSession(playerId = result.playerId)
             call.response.headers.append("HX-Redirect", "/play")
         }
     }

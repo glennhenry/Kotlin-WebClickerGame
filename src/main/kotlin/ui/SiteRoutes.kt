@@ -1,5 +1,7 @@
 package dev.kotlinssr.ui
 
+import dev.kotlinssr.context.ServerContext
+import dev.kotlinssr.getPlayerIdFromSession
 import dev.kotlinssr.ui.pages.HomePage
 import dev.kotlinssr.ui.pages.PlayPage
 import dev.kotlinssr.validateSession
@@ -12,7 +14,7 @@ import kotlinx.html.head
 import kotlinx.html.p
 
 @OptIn(ExperimentalKtorApi::class)
-fun Route.siteRoutes() {
+fun Route.siteRoutes(serverContext: ServerContext) {
     get("/") {
         call.respondHtml {
             head {
@@ -25,13 +27,16 @@ fun Route.siteRoutes() {
     }
 
     get("/play") {
-        if (validateSession()) {
+        val playerId = getPlayerIdFromSession()
+        val data = playerId?.let { serverContext.db.getPlayerAccount(it) }?.playerData
+
+        if (playerId != null && data != null) {
             call.respondHtml {
                 head {
                     websiteHead()
                 }
                 body {
-                    PlayPage()
+                    PlayPage(playerData = data)
                 }
             }
         } else {

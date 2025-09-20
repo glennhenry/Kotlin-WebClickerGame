@@ -12,10 +12,14 @@ import kotlinx.css.Color
 import kotlinx.css.CssBuilder
 import kotlinx.css.Display
 import kotlinx.css.FlexDirection
+import kotlinx.css.GridColumn
+import kotlinx.css.GridTemplateColumns
+import kotlinx.css.GridTemplateRows
 import kotlinx.css.JustifyContent
 import kotlinx.css.Margin
 import kotlinx.css.Outline
 import kotlinx.css.Padding
+import kotlinx.css.Position
 import kotlinx.css.TextAlign
 import kotlinx.css.alignItems
 import kotlinx.css.backgroundColor
@@ -26,11 +30,15 @@ import kotlinx.css.borderRadius
 import kotlinx.css.boxShadow
 import kotlinx.css.boxSizing
 import kotlinx.css.color
+import kotlinx.css.columnGap
 import kotlinx.css.display
 import kotlinx.css.flexDirection
 import kotlinx.css.fontFamily
 import kotlinx.css.fontSize
 import kotlinx.css.gap
+import kotlinx.css.gridColumn
+import kotlinx.css.gridTemplateColumns
+import kotlinx.css.gridTemplateRows
 import kotlinx.css.height
 import kotlinx.css.justifyContent
 import kotlinx.css.margin
@@ -38,9 +46,11 @@ import kotlinx.css.maxHeight
 import kotlinx.css.maxWidth
 import kotlinx.css.outline
 import kotlinx.css.padding
+import kotlinx.css.position
 import kotlinx.css.properties.BoxShadow
 import kotlinx.css.properties.BoxShadows
 import kotlinx.css.px
+import kotlinx.css.rowGap
 import kotlinx.css.textAlign
 import kotlinx.css.width
 
@@ -130,6 +140,19 @@ fun Route.stylesCss() {
             /* Play page */
             rule(".top-status-bar") {
                 backgroundColor = Color(Styles.topStatusBarBg)
+                height = 150.px
+                position = Position.relative
+            }
+            rule(".stats-container") {
+                display = Display.flex
+                flexDirection = FlexDirection.row
+                gap = 24.px
+
+            }
+            rule(".stats-column-container") {
+                display = Display.flex
+                flexDirection = FlexDirection.column
+                gap = 8.px
             }
             rule(".shop-section") {
                 backgroundColor = Color(Styles.shopSectionBg)

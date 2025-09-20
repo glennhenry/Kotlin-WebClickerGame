@@ -35,7 +35,7 @@ class ClickerDatabaseImpl : ClickerDatabase {
             playerData = PlayerData.newgame()
         )
         accounts.add(newAccount)
-        return AuthResult.Success
+        return AuthResult.Success(newAccount.playerId)
     }
 
     private fun hashPassword(pw: String): String {
@@ -51,9 +51,13 @@ class ClickerDatabaseImpl : ClickerDatabase {
         }
 
         return if (hashPassword(password) == account.password) {
-            AuthResult.Success
+            AuthResult.Success(playerId = account.playerId)
         } else {
             AuthResult.WrongPassword
         }
+    }
+
+    override fun getPlayerAccount(playerId: String): PlayerAccount? {
+        return accounts.find { it.playerId == playerId }
     }
 }
