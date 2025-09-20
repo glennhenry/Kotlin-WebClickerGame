@@ -60,4 +60,14 @@ class ClickerDatabaseImpl : ClickerDatabase {
     override fun getPlayerAccount(playerId: String): PlayerAccount? {
         return accounts.find { it.playerId == playerId }
     }
+
+    override fun updatePlayerData(
+        playerId: String,
+        update: (PlayerData) -> PlayerData
+    ) {
+        val account = accounts.find { it.playerId == playerId }!!
+        val newData = update(account.playerData)
+        accounts.removeIf { it.playerId == playerId }
+        accounts.add(account.copy(playerData = newData))
+    }
 }

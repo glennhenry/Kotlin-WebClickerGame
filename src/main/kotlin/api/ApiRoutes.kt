@@ -1,23 +1,70 @@
 package dev.kotlinssr.api
 
+import dev.kotlinssr.UserSession
 import dev.kotlinssr.context.ServerContext
 import dev.kotlinssr.data.model.allUpgrades
 import dev.kotlinssr.getPlayerIdFromSession
 import dev.kotlinssr.ui.pages.ShopCard
+import dev.kotlinssr.ui.pages.TopStatusBar
 import io.ktor.server.html.respondHtml
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
+import io.ktor.server.routing.post
+import io.ktor.server.sessions.get
+import io.ktor.server.sessions.sessions
 import io.ktor.utils.io.ExperimentalKtorApi
 import kotlinx.html.a
 import kotlinx.html.body
 import kotlinx.html.button
 import kotlinx.html.div
+import kotlinx.html.id
 import kotlinx.html.p
 
 @OptIn(ExperimentalKtorApi::class)
 fun Route.apiRoutes(serverContext: ServerContext) {
-    get("/buy") {
+    post("/click") {
+        val playerId = getPlayerIdFromSession()
+        val playerData = playerId?.let { serverContext.db.getPlayerAccount(it) }?.playerData
+        if (playerId == null || playerData == null) {
+            call.respondHtml {
+                body {
+                    p {
+                        +"You are not logged in"
+                        a {
+                            href = "/"
+                            +"Back"
+                        }
+                    }
+                }
+            }
+            return@post
+        }
 
+        serverContext.db.updatePlayerData(playerId) {
+            it.copy(clickPoints = it.clickPoints + it.pointPerClick, totalClicks = it.totalClicks + 1)
+        }
+
+        val updatedData = serverContext.db.getPlayerAccount(playerId)!!.playerData
+
+        call.respondHtml {
+            body {
+                // update status bar
+                div {
+                    id = "top-status-id"
+                    TopStatusBar(updatedData)
+                }
+            }
+        }
+    }
+
+    get("/buy") {
+        val playerId = getPlayerIdFromSession()!!
+        val upgradeName = call.parameters["name"] ?: return@get
+        val upgradeToBuy = allUpgrades.find { it.name == upgradeName}!!
+
+        serverContext.db.updatePlayerData(playerId) {
+            it.copy(upgrades = it.upgrades + upgradeToBuy, pointPerClick = upgradeToBuy.clickPointIncrease)
+        }
     }
 
     get("/shop") {
@@ -54,7 +101,11 @@ fun Route.apiRoutes(serverContext: ServerContext) {
                 }
                 div(classes = "upgrades-grid") {
                     upgrades.forEach {
-                        ShopCard(it, canBuy = playerData.clickPoints > it.cost, bought = playerData.upgrades.contains(it))
+                        ShopCard(
+                            it,
+                            canBuy = playerData.clickPoints > it.cost,
+                            bought = playerData.upgrades.contains(it)
+                        )
                     }
                 }
                 button(classes = "load-page-button") {

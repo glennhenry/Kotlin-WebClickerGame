@@ -22,22 +22,29 @@ import kotlinx.html.style
 import kotlinx.html.unsafe
 import kotlin.random.Random
 
-fun FlowContent.PlayPage(playerData: PlayerData) {
+@OptIn(ExperimentalKtorApi::class)
+fun FlowContent.PlayPage(playerData: PlayerData, currentPage: Int) {
     div {
         TopStatusBar(playerData)
         main(classes = "main-content") {
             button(classes = "click-me") {
+                attributes.hx {
+                    post = "/click?page=${currentPage}"
+                    target = "#top-status-id, #upgrades-container"
+                    swap = HxSwap.outerHtml
+                }
                 onClick = "clicked(${playerData.pointPerClick})"
                 +"Click me!"
             }
         }
-        ShopSection()
+        ShopSection(currentPage)
     }
 }
 
 @OptIn(ExperimentalKtorApi::class)
 fun FlowContent.TopStatusBar(playerData: PlayerData) {
     div(classes = "top-status-bar") {
+        id = "top-status-id"
         div(classes = "stats-container") {
             div(classes = "stats-column-container") {
                 p {
@@ -65,13 +72,15 @@ fun FlowContent.TopStatusBar(playerData: PlayerData) {
 }
 
 @OptIn(ExperimentalKtorApi::class)
-fun FlowContent.ShopSection() {
+fun FlowContent.ShopSection(currentPage: Int) {
     div(classes = "shop-section") {
         div {
             id = "upgrades-container"
             // initially fetch page 1, served by /shop in apiRoutes
             attributes.hx {
-                get = "/shop?page=1"
+                get = "/shop?page=$currentPage"
+                // since shop display is fetched, further update can simply re-fetch
+                trigger = "click from:.click-me, click from:.buy-button"
                 target = "#upgrades-container"
                 swap = HxSwap.innerHtml
                 trigger = "load"
@@ -92,24 +101,44 @@ fun FlowContent.ShopCard(upgrade: Upgrade, canBuy: Boolean, bought: Boolean) {
         p("upgrade-cost") {
             strong { +"Cost:" }
             span(classes = "emphasized-text") { +"${upgrade.cost}" }
-            +"click point to increase "
-            span(classes = "emphasized-text") { +"${upgrade.clickPointIncrease} click point" }
+            +" click points to increase "
+            span(classes = "emphasized-text") { +"${upgrade.clickPointIncrease} click points" }
         }
-        button(classes = if (bought) "disabled-buy-button" else "buy-button") {
+
+        val buttonText: String
+        val isDisabled: Boolean
+        val buttonClass: String
+
+        when {
+            bought -> {
+                buttonText = "Bought"
+                isDisabled = true
+                buttonClass = "disabled-buy-button"
+            }
+            !canBuy -> {
+                buttonText = "Not enough"
+                isDisabled = true
+                buttonClass = "disabled-buy-button"
+            }
+            else -> {
+                buttonText = "Buy"
+                isDisabled = false
+                buttonClass = "buy-button"
+            }
+        }
+
+        button(classes = buttonClass) {
             attributes.hx {
                 get = "/buy"
                 parameters {
                     set("name", upgrade.name)
                 }
             }
-            disabled = bought || !canBuy
+            disabled = isDisabled
             p(classes = "buy-text") {
-                if (bought) {
-                    +"Bought"
-                } else {
-                    +"Buy"
-                }
+                +buttonText
             }
         }
     }
 }
+

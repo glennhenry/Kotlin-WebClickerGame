@@ -1,5 +1,6 @@
 package dev.kotlinssr.api
 
+import dev.kotlinssr.UserSession
 import dev.kotlinssr.context.ServerContext
 import dev.kotlinssr.getPlayerIdFromSession
 import dev.kotlinssr.ui.pages.HomePage
@@ -8,6 +9,8 @@ import dev.kotlinssr.ui.websiteHead
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.html.*
 import io.ktor.server.routing.*
+import io.ktor.server.sessions.get
+import io.ktor.server.sessions.sessions
 import io.ktor.utils.io.*
 import kotlinx.html.a
 import kotlinx.html.body
@@ -38,7 +41,7 @@ fun Route.siteRoutes(serverContext: ServerContext) {
                     websiteHead()
                 }
                 body {
-                    PlayPage(playerData = data)
+                    PlayPage(playerData = data, currentPage = call.sessions.get<UserSession>()!!.pagingData.currentPage)
                 }
             }
         } else {

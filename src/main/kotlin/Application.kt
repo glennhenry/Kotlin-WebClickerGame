@@ -43,7 +43,7 @@ fun Application.module() {
 // When user successfully register/login, set a session for the [playerId] with random a session ID
 fun RoutingContext.setSession(playerId: String) {
     call.sessions.set(
-        UserSession(id = randomString(12), count = 0, playerId = playerId)
+        UserSession(id = randomString(12), count = 0, playerId = playerId, pagingData = PagingData(1))
     )
 }
 
@@ -59,4 +59,7 @@ fun RoutingContext.getPlayerIdFromSession(): String? {
 }
 
 @Serializable
-data class UserSession(val id: String, val count: Int, val playerId: String)
+data class UserSession(val id: String, val count: Int, val playerId: String, val pagingData: PagingData)
+
+@Serializable
+data class PagingData(val currentPage: Int)
