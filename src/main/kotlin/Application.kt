@@ -1,9 +1,11 @@
 package dev.kotlinssr
 
+import dev.kotlinssr.api.apiRoutes
+import dev.kotlinssr.api.authRoute
 import dev.kotlinssr.context.ServerContext
 import dev.kotlinssr.data.ClickerDatabaseImpl
 import dev.kotlinssr.data.model.randomString
-import dev.kotlinssr.ui.siteRoutes
+import dev.kotlinssr.api.siteRoutes
 import dev.kotlinssr.ui.stylesCss
 import io.ktor.server.application.*
 import io.ktor.server.http.content.*
@@ -27,6 +29,7 @@ fun Application.module() {
         stylesCss()
         staticFiles("scripts", File("scripts"))
         authRoute(serverContext)
+        apiRoutes(serverContext)
     }
 
     install(CallLogging)

@@ -1,10 +1,10 @@
-package dev.kotlinssr.ui
+package dev.kotlinssr.api
 
 import dev.kotlinssr.context.ServerContext
 import dev.kotlinssr.getPlayerIdFromSession
 import dev.kotlinssr.ui.pages.HomePage
 import dev.kotlinssr.ui.pages.PlayPage
-import dev.kotlinssr.validateSession
+import dev.kotlinssr.ui.websiteHead
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.html.*
 import io.ktor.server.routing.*
@@ -14,6 +14,7 @@ import kotlinx.html.body
 import kotlinx.html.head
 import kotlinx.html.p
 
+// webpage-level routes
 @OptIn(ExperimentalKtorApi::class)
 fun Route.siteRoutes(serverContext: ServerContext) {
     get("/") {

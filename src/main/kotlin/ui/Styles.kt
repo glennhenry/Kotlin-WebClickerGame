@@ -67,8 +67,7 @@ fun Route.stylesCss() {
                 boxSizing = BoxSizing.borderBox
             }
             body {
-                width = 600.px
-                height = 400.px
+                width = 800.px
                 margin = Margin(4.px)
                 fontFamily = Styles.default
                 border = Border(
@@ -170,16 +169,32 @@ fun Route.stylesCss() {
                 }
             }
 
+            rule(".main-content") {
+                height = 100.px
+            }
+
             rule(".shop-section") {
                 backgroundColor = Color(Styles.shopSectionBg)
-                height = 200.px
+                padding = Padding(12.px)
+            }
+            rule(".upgrades-container-div") {
+                display = Display.flex
+                gap = 8.px
+                flexDirection = FlexDirection.row
+            }
+            rule("#upgrades-container") {
+                display = Display.grid
+                gridTemplateColumns = GridTemplateColumns.repeat("2, 1fr") // 2 columns
+                gap = 16.px
             }
             rule(".shop-card") {
                 backgroundColor = Color("#ffffff22")
-                padding = Padding(4.px)
+                padding = Padding(12.px)
                 display = Display.flex
                 flexDirection = FlexDirection.column
                 border = Border(1.px, BorderStyle.solid, color = Color(Styles.siteBorder))
+                borderRadius = 8.px
+                width = 200.px
             }
             rule(".upgrade-title") {
                 fontWeight = FontWeight.bold
@@ -219,6 +234,18 @@ fun Route.stylesCss() {
             rule(".buy-text") {
                 fontWeight = FontWeight.bold
                 color = Color.white
+            }
+            rule(".load-page-button") {
+                border = Border.none
+                borderRadius = 6.px
+                backgroundColor = Color("#f9d187")
+                fontSize = 16.px
+                fontWeight = FontWeight.bold
+                padding = Padding(6.px)
+                cursor = Cursor.pointer
+                disabled {
+                    cursor = Cursor.notAllowed
+                }
             }
         }
     }

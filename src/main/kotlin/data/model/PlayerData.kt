@@ -18,7 +18,7 @@ data class PlayerData(
 ) {
     companion object {
         fun dummy(): PlayerData {
-            val upgrades = exampleUpgrades.shuffled().take(Random.nextInt(1, exampleUpgrades.size))
+            val upgrades = allUpgrades.shuffled().take(Random.nextInt(1, allUpgrades.size))
 
             return PlayerData(
                 clickPoints = Random.nextLong(1, 100_000),

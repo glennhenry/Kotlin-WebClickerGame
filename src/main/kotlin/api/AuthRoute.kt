@@ -1,7 +1,9 @@
-package dev.kotlinssr
+package dev.kotlinssr.api
 
+import dev.kotlinssr.UserSession
 import dev.kotlinssr.context.ServerContext
 import dev.kotlinssr.data.AuthResult
+import dev.kotlinssr.setSession
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.html.respondHtml
 import io.ktor.server.request.receiveParameters

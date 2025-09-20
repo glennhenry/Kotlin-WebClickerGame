@@ -2,15 +2,15 @@ package dev.kotlinssr.ui.pages
 
 import dev.kotlinssr.data.model.PlayerData
 import dev.kotlinssr.data.model.Upgrade
-import dev.kotlinssr.data.model.exampleUpgrades
+import dev.kotlinssr.data.model.allUpgrades
 import io.ktor.htmx.HxSwap
 import io.ktor.htmx.html.hx
 import io.ktor.http.parameters
 import io.ktor.utils.io.ExperimentalKtorApi
-import kotlinx.css.button
 import kotlinx.html.FlowContent
 import kotlinx.html.button
 import kotlinx.html.div
+import kotlinx.html.id
 import kotlinx.html.main
 import kotlinx.html.p
 import kotlinx.html.span
@@ -19,12 +19,12 @@ import kotlinx.html.strong
 fun FlowContent.PlayPage(playerData: PlayerData) {
     div {
         TopStatusBar(playerData)
-        main {
+        main(classes = "main-content") {
             p {
                 +"Main content"
             }
         }
-        ShopSection(playerData.upgrades)
+        ShopSection()
     }
 }
 
@@ -57,10 +57,18 @@ fun FlowContent.TopStatusBar(playerData: PlayerData) {
     }
 }
 
-fun FlowContent.ShopSection(playerUpgrades: List<Upgrade>) {
+@OptIn(ExperimentalKtorApi::class)
+fun FlowContent.ShopSection() {
     div(classes = "shop-section") {
-        exampleUpgrades.forEach {
-            ShopCard(it, bought = playerUpgrades.contains(it))
+        div {
+            id = "upgrades-container"
+            // initially fetch page 1, served by /shop in apiRoutes
+            attributes.hx {
+                get = "/shop?page=1"
+                target = "#upgrades-container"
+                swap = HxSwap.innerHtml
+                trigger = "load"
+            }
         }
     }
 }

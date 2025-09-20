@@ -11,7 +11,7 @@ fun List<Upgrade>.calculateIncrease(): Long {
     return 1 + this.sumOf { it.clickPointIncrease }
 }
 
-val exampleUpgrades = listOf(
+val allUpgrades = listOf(
     Upgrade(
         name = "Rally", description = "The first upgrade in the game",
         cost = 10, clickPointIncrease = 1
