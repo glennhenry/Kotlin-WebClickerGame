@@ -26,7 +26,7 @@ fun FlowContent.PlayPage(playerData: PlayerData) {
 @OptIn(ExperimentalKtorApi::class)
 fun FlowContent.TopStatusBar(playerData: PlayerData) {
     div(classes = "top-status-bar") {
-        div(classes = "status-container") {
+        div(classes = "stats-container") {
             div(classes = "stats-column-container") {
                 p {
                     +"Total click points: ${playerData.clickPoints}"
@@ -41,7 +41,7 @@ fun FlowContent.TopStatusBar(playerData: PlayerData) {
                 }
             }
         }
-        button {
+        button(classes = "logout-button") {
             attributes.hx {
                 get = "/logout"
                 target = "body"
@@ -54,8 +54,12 @@ fun FlowContent.TopStatusBar(playerData: PlayerData) {
 
 fun FlowContent.ShopSection() {
     div(classes = "shop-section") {
-        p {
-            +"shop section"
-        }
+
+    }
+}
+
+fun FlowContent.ShopCard() {
+    div(classes = "shop-card") {
+
     }
 }

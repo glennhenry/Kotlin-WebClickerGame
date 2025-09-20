@@ -5,6 +5,7 @@ import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.css.Align
+import kotlinx.css.*
 import kotlinx.css.Border
 import kotlinx.css.BorderStyle
 import kotlinx.css.BoxSizing
@@ -12,9 +13,6 @@ import kotlinx.css.Color
 import kotlinx.css.CssBuilder
 import kotlinx.css.Display
 import kotlinx.css.FlexDirection
-import kotlinx.css.GridColumn
-import kotlinx.css.GridTemplateColumns
-import kotlinx.css.GridTemplateRows
 import kotlinx.css.JustifyContent
 import kotlinx.css.Margin
 import kotlinx.css.Outline
@@ -27,31 +25,22 @@ import kotlinx.css.body
 import kotlinx.css.border
 import kotlinx.css.borderColor
 import kotlinx.css.borderRadius
-import kotlinx.css.boxShadow
 import kotlinx.css.boxSizing
 import kotlinx.css.color
-import kotlinx.css.columnGap
 import kotlinx.css.display
 import kotlinx.css.flexDirection
 import kotlinx.css.fontFamily
 import kotlinx.css.fontSize
 import kotlinx.css.gap
-import kotlinx.css.gridColumn
-import kotlinx.css.gridTemplateColumns
-import kotlinx.css.gridTemplateRows
 import kotlinx.css.height
 import kotlinx.css.justifyContent
 import kotlinx.css.margin
-import kotlinx.css.maxHeight
-import kotlinx.css.maxWidth
 import kotlinx.css.outline
 import kotlinx.css.padding
 import kotlinx.css.position
-import kotlinx.css.properties.BoxShadow
-import kotlinx.css.properties.BoxShadows
 import kotlinx.css.px
-import kotlinx.css.rowGap
 import kotlinx.css.textAlign
+import kotlinx.css.top
 import kotlinx.css.width
 
 // CSS styling and theme constants
@@ -140,22 +129,51 @@ fun Route.stylesCss() {
             /* Play page */
             rule(".top-status-bar") {
                 backgroundColor = Color(Styles.topStatusBarBg)
-                height = 150.px
+                height = 100.px
                 position = Position.relative
+
+                display = Display.flex
+                alignItems = Align.center
+                justifyContent = JustifyContent.spaceBetween
+                padding = Padding(0.px, 24.px)
             }
             rule(".stats-container") {
                 display = Display.flex
                 flexDirection = FlexDirection.row
-                gap = 24.px
-
+                gap = 32.px
+                alignItems = Align.center
             }
             rule(".stats-column-container") {
                 display = Display.flex
                 flexDirection = FlexDirection.column
                 gap = 8.px
+
+                backgroundColor = Color("#ffffff22") // translucent overlay
+                padding = Padding(12.px, 16.px)
+                borderRadius = 8.px
+            }
+            rule(".logout-button") {
+                position = Position.absolute
+                top = 2.px
+                right = 2.px
+
+                backgroundColor = Color("#e74c3c")
+                color = Color.white
+                border = Border.none
+                borderRadius = 6.px
+                padding = Padding(4.px, 8.px)
+                cursor = Cursor.pointer
+                fontWeight = FontWeight.bold
+
+                hover {
+                    backgroundColor = Color("#c0392b")
+                }
             }
             rule(".shop-section") {
                 backgroundColor = Color(Styles.shopSectionBg)
+            }
+            rule(".shop-card") {
+                backgroundColor = Color("#ffffff22")
             }
         }
     }

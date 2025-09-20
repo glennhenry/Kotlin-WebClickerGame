@@ -9,6 +9,7 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.server.html.*
 import io.ktor.server.routing.*
 import io.ktor.utils.io.*
+import kotlinx.html.a
 import kotlinx.html.body
 import kotlinx.html.head
 import kotlinx.html.p
@@ -44,6 +45,10 @@ fun Route.siteRoutes(serverContext: ServerContext) {
                 body {
                     p {
                         +"Session invalid"
+                    }
+                    a {
+                        href = "/"
+                        +"Back to home"
                     }
                 }
             }
