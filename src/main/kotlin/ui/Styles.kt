@@ -169,11 +169,56 @@ fun Route.stylesCss() {
                     backgroundColor = Color("#c0392b")
                 }
             }
+
             rule(".shop-section") {
                 backgroundColor = Color(Styles.shopSectionBg)
+                height = 200.px
             }
             rule(".shop-card") {
                 backgroundColor = Color("#ffffff22")
+                padding = Padding(4.px)
+                display = Display.flex
+                flexDirection = FlexDirection.column
+                border = Border(1.px, BorderStyle.solid, color = Color(Styles.siteBorder))
+            }
+            rule(".upgrade-title") {
+                fontWeight = FontWeight.bold
+                fontSize = 16.px
+            }
+            rule(".upgrade-description") {
+                fontSize = 12.px
+            }
+            rule(".upgrade-cost") {
+                fontSize = 12.px
+                display = Display.flex
+                flexDirection = FlexDirection.row
+                gap = 4.px
+            }
+            rule(".emphasized-text") {
+                color = Color("#f9d187")
+            }
+            rule(".buy-button") {
+                padding = Padding(8.px)
+                backgroundColor = Color("#5977bd")
+                border = Border.none
+                borderRadius = 6.px
+                cursor = Cursor.pointer
+                width = LinearDimension.fitContent
+                hover {
+                    backgroundColor = Color("#8098d1")
+                }
+            }
+            rule(".disabled-buy-button") {
+                padding = Padding(8.px)
+                backgroundColor = Color("#9fa6b5")
+                border = Border.none
+                borderRadius = 6.px
+                width = LinearDimension.fitContent
+                cursor = Cursor.default
+            }
+            rule(".buy-text") {
+                fontWeight = FontWeight.bold
+                color = Color.white
             }
         }
     }

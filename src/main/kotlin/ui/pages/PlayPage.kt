@@ -1,8 +1,11 @@
 package dev.kotlinssr.ui.pages
 
 import dev.kotlinssr.data.model.PlayerData
+import dev.kotlinssr.data.model.Upgrade
+import dev.kotlinssr.data.model.exampleUpgrades
 import io.ktor.htmx.HxSwap
 import io.ktor.htmx.html.hx
+import io.ktor.http.parameters
 import io.ktor.utils.io.ExperimentalKtorApi
 import kotlinx.css.button
 import kotlinx.html.FlowContent
@@ -10,6 +13,8 @@ import kotlinx.html.button
 import kotlinx.html.div
 import kotlinx.html.main
 import kotlinx.html.p
+import kotlinx.html.span
+import kotlinx.html.strong
 
 fun FlowContent.PlayPage(playerData: PlayerData) {
     div {
@@ -19,7 +24,7 @@ fun FlowContent.PlayPage(playerData: PlayerData) {
                 +"Main content"
             }
         }
-        ShopSection()
+        ShopSection(playerData.upgrades)
     }
 }
 
@@ -52,14 +57,44 @@ fun FlowContent.TopStatusBar(playerData: PlayerData) {
     }
 }
 
-fun FlowContent.ShopSection() {
+fun FlowContent.ShopSection(playerUpgrades: List<Upgrade>) {
     div(classes = "shop-section") {
-
+        exampleUpgrades.forEach {
+            ShopCard(it, bought = playerUpgrades.contains(it))
+        }
     }
 }
 
-fun FlowContent.ShopCard() {
+@OptIn(ExperimentalKtorApi::class)
+fun FlowContent.ShopCard(upgrade: Upgrade, bought: Boolean) {
     div(classes = "shop-card") {
-
+        p("upgrade-title") {
+            +upgrade.name
+        }
+        p("upgrade-description") {
+            +upgrade.description
+        }
+        p("upgrade-cost") {
+            strong { +"Cost:" }
+            span(classes = "emphasized-text") { +"${upgrade.cost}"}
+            +"click point to increase "
+            span(classes = "emphasized-text") { +"${upgrade.clickPointIncrease} click point"}
+        }
+        button(classes = if (bought) "disabled-buy-button" else "buy-button") {
+            attributes.hx {
+                get = "/buy"
+                parameters {
+                    set("name", upgrade.name)
+                }
+            }
+            disabled = bought
+            p(classes = "buy-text") {
+                if (bought) {
+                    +"Bought"
+                } else {
+                    +"Buy"
+                }
+            }
+        }
     }
 }
